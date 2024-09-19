@@ -49,6 +49,15 @@
 <script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="src/js/sb-admin-2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 4000);
+    })
+</script>
 
 </body>
 
