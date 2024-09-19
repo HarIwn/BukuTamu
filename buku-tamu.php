@@ -168,7 +168,7 @@ include_once('templates/header.php');
                                             style="width: 106.2px;">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tfoot> 
+                                <tfoot>
                                     <tr>
                                         <th rowspan="1" colspan="1">No</th>
                                         <th rowspan="1" colspan="1">Tanggal</th>
@@ -195,8 +195,11 @@ include_once('templates/header.php');
                                             <td><?= $tamu['bertemu'] ?></td>
                                             <td><?= $tamu['kepentingan'] ?></td>
                                             <td class="d-flex justify-content-center align-items-center">
-                                                <a class="btn btn-success" href="edit-tamu.php?id=<?= $tamu['id_tamu']?>">Ubah</a>
-                                                <button class="btn btn-danger m-1" type="button">Hapus</button>
+                                                <a class="btn btn-success"
+                                                    href="edit-tamu.php?id=<?= $tamu['id_tamu'] ?>">Ubah</a>
+                                                <a onclick="confirm('Apakah anda yakin ingin menghapus data ini?')"
+                                                    href="hapus-tamu.php?id=<?= $tamu['id_tamu'] ?>"
+                                                    class="btn btn-danger m-1" type="button">Hapus</a>
                                             </td>
                                         </tr>
                                         <?php

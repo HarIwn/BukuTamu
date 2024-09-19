@@ -35,6 +35,18 @@ function tambah_tamu($data)
         return 0;
     }
 }
+
+// function hapus data kamu
+
+function hapus_tamu($id)
+{
+    global $koneksi;
+
+    $query = "DELETE FROM buku_tamu WHERE id_tamu = '$id'";
+    mysqli_query($koneksi, $query);
+    return mysqli_affected_rows($koneksi);
+}
+
 function ubah_tamu($data)
 {
     global $koneksi;
@@ -62,5 +74,6 @@ function ubah_tamu($data)
         echo "Error: " . mysqli_error($koneksi);
         return 0;
     }
+
 }
 ?>
