@@ -37,7 +37,6 @@ function tambah_tamu($data)
 }
 
 // function hapus data kamu
-
 function hapus_tamu($id)
 {
     global $koneksi;
