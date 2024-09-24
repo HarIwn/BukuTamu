@@ -7,11 +7,19 @@ function query($query)
 {
     global $koneksi;
     $result = mysqli_query($koneksi, $query);
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
+
+    // Check if the query was successful
+    if ($result === false) {
+        // Handle the error
+        echo "Error: " . mysqli_error($koneksi);
+        return [];
+    } else {
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        return $rows;
     }
-    return $rows;
 }
 
 function tambah_tamu($data)
@@ -27,6 +35,26 @@ function tambah_tamu($data)
     $kepentingan = mysqli_real_escape_string($koneksi, $data["kepentingan"]);
 
     $query = "INSERT INTO buku_tamu VALUES ('$kode','$tanggal','$nama_tamu','$alamat','$no_hp','$bertemu','$kepentingan')";
+
+    if (mysqli_query($koneksi, $query)) {
+        return mysqli_affected_rows($koneksi);
+    } else {
+        echo "Error: " . mysqli_error($koneksi);
+        return 0;
+    }
+}
+function tambah_user($data)
+{
+    global $koneksi;
+
+    $kode = mysqli_real_escape_string($koneksi, $data["id_user"]);
+    $username = mysqli_real_escape_string($koneksi, $data["username"]);
+    $password = mysqli_real_escape_string($koneksi, $data["password"]);
+    $user_role = mysqli_real_escape_string($koneksi, $data["user_role"]);
+
+    // Enkripsi password dengan password_hash
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $query = "INSERT INTO users VALUES ('$kode','$username','$password_hash','$user_role')";
 
     if (mysqli_query($koneksi, $query)) {
         return mysqli_affected_rows($koneksi);
@@ -75,4 +103,26 @@ function ubah_tamu($data)
     }
 
 }
+function ubah_user($data)
+{
+    global $koneksi;
+
+    $kode = mysqli_real_escape_string($koneksi, $data["id_user"]);
+    $username = mysqli_real_escape_string($koneksi, $data["username"]);
+    $user_role = mysqli_real_escape_string($koneksi, $data["user_role"]);
+
+    $query = "UPDATE users SET 
+            username = '$username',
+            user_role = '$user_role'
+            WHERE id_user = '$kode'";
+
+    if (mysqli_query($koneksi, $query)) {
+        return mysqli_affected_rows($koneksi);
+    } else {
+        echo "Error: " . mysqli_error($koneksi);
+        return 0;
+    }
+
+}
+
 ?>
