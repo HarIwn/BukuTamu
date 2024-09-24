@@ -67,7 +67,7 @@
 
             <!-- Nav Item - User -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="users.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>User</span></a>
             </li>

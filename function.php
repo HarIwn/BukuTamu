@@ -73,6 +73,14 @@ function hapus_tamu($id)
     mysqli_query($koneksi, $query);
     return mysqli_affected_rows($koneksi);
 }
+function hapus_user($id)
+{
+    global $koneksi;
+
+    $query = "DELETE FROM users WHERE id_user = '$id'";
+    mysqli_query($koneksi, $query);
+    return mysqli_affected_rows($koneksi);
+}
 
 function ubah_tamu($data)
 {
@@ -122,7 +130,7 @@ function ubah_user($data)
         echo "Error: " . mysqli_error($koneksi);
         return 0;
     }
-
+    
 }
 
 ?>

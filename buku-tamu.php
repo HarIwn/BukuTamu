@@ -62,7 +62,7 @@ include_once('templates/header.php');
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Tambah Data Tamu</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -168,18 +168,6 @@ include_once('templates/header.php');
                                             style="width: 106.2px;">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th rowspan="1" colspan="1">No</th>
-                                        <th rowspan="1" colspan="1">Tanggal</th>
-                                        <th rowspan="1" colspan="1">Nama Tamu</th>
-                                        <th rowspan="1" colspan="1">No. Telp/HP</th>
-                                        <th rowspan="1" colspan="1">Alamat</th>
-                                        <th rowspan="1" colspan="1">Kepentingan</th>
-                                        <th rowspan="1" colspan="1">Bertemu Dengan</th>
-                                        <th rowspan="1" colspan="1">Aksi</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                     <?php
                                     $no = 1;
