@@ -26,9 +26,9 @@ include_once('templates/header.php');
             <?php
         } else {
             ?>
-            <div class="alert alert-danger" role="alert">
+<!--             <div class="alert alert-danger" role="alert">
                 Data gagal diubah!
-            </div>
+            </div> -->
             <?php
         }
     }

@@ -66,7 +66,7 @@ include_once('templates/header.php');
                 </div>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn btn-danger btn-icon-split" href="buku-user.php">
+                <a type="button" class="btn btn-danger btn-icon-split" href="users.php">
                     <span class="icon text-white-50">
                         <i class="fas fa-chevron-circle-left"></i>
                     </span>

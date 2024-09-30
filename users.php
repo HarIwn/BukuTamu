@@ -6,11 +6,9 @@ include_once('templates/header.php');
 <div class="container-fluid">
     <?php
     require_once('function.php');
-    include_once('templates/header.php');
     ?>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Data User</h1>
-
 
     <?php
     // jika ada tombol simpan
@@ -29,7 +27,24 @@ include_once('templates/header.php');
             <?php
         }
     }
+    // jika ada tombol ganti password
+    else if (isset($_POST['ganti_password'])) {
+        if (ganti_password($_POST) > 0) {
+            ?>
+                <div class="alert alert-success" role="alert">
+                    Password berhasil diubah!
+                </div>
+            <?php
+        } else {
+            ?>
+                <div class="alert alert-danger" role="alert">
+                    Password gagal diubah!
+                </div>
+            <?php
+        }
+    }
     ?>
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <!-- Button trigger modal -->
@@ -40,21 +55,18 @@ include_once('templates/header.php');
                 <span class="text">Tambah User</span>
             </button>
             <?php
-            // mengambil data barang dari tabel dengan kode terbesar
+            // mengambil data user dari tabel dengan kode terbesar
             $query = mysqli_query($koneksi, "SELECT max(id_user) as kodeTerbesar FROM users");
             $data = mysqli_fetch_array($query);
             $kodeuser = $data['kodeTerbesar'];
-            // mengambil angka dari kode barang terbesar, menggunakan fungsi substr dan diubah ke integer dengan (int)
-            $urutan = (int) substr($kodeuser, 2, 3);
+            // mengambil angka dari kode user terbesar, menggunakan fungsi substr dan diubah ke integer dengan (int)
+            $urutan = (int) substr($kodeuser, 3);
             // nomor yang diambil akan tambah 1 untuk menentukan nomor urut berikutnya
             $urutan++;
 
-            //membuat kode barang baru
-            // string sprintf("%03s", $urutan); berfungsi untuk membuat string menjadi 3 karakter
-            
-            // angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misal zt
+            // membuat kode user baru
             $huruf = "usr";
-            $kodeuser = $huruf . sprintf("%02s", $urutan);
+            $kodeuser = $huruf . sprintf("%02d", $urutan); // using %02d to pad with zeros
             ?>
             <!-- Modal -->
             <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -89,6 +101,36 @@ include_once('templates/header.php');
                                             <option value="admin">Administrator</option>
                                             <option value="operator">Operator</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sencondary"
+                                        data-dismiss="modal">Keluar</button>
+                                    <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Ganti Password -->
+            <div class="modal fade" id="gantiPassword" tabindex="-1" aria-labelledby="gantiPasswordLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="gantiPasswordLabel">Ganti Password</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="">
+                                <input type="hidden" name="id_user" id="id_user">
+                                <div class="form-group row">
+                                    <label for="nama_user" class="col-sm-3 col-form-label">Password Baru</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="password" name="password">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -154,6 +196,11 @@ include_once('templates/header.php');
                                             <td><?= $user['username'] ?></td>
                                             <td><?= $user['user_role'] ?></td>
                                             <td class="d-flex justify-content-center align-items-center">
+                                                <button type="button" class="btn btn-info btn-icon-split m-1"
+                                                    data-toggle="modal" data-target="#gantiPassword"
+                                                    data-id="<?= $user['id_user'] ?>">
+                                                    <span class="text">Ganti Password</span>
+                                                </button>
                                                 <a class="btn btn-success"
                                                     href="edit-user.php?id=<?= $user['id_user'] ?>">Ubah</a>
                                                 <a onclick="confirm('Apakah anda yakin ingin menghapus data ini?')"

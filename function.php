@@ -43,9 +43,15 @@ function tambah_tamu($data)
         return 0;
     }
 }
+
 function tambah_user($data)
 {
     global $koneksi;
+
+    if (!isset($data["username"]) || !isset($data["user_role"])) {
+        echo '<div class="alert alert-danger" role="alert">Error: Tidak ada username dan user_role</div>';
+        return 0;
+    }
 
     $kode = mysqli_real_escape_string($koneksi, $data["id_user"]);
     $username = mysqli_real_escape_string($koneksi, $data["username"]);
@@ -54,8 +60,17 @@ function tambah_user($data)
 
     // Enkripsi password dengan password_hash
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
-    $query = "INSERT INTO users VALUES ('$kode','$username','$password_hash','$user_role')";
 
+    // Cek apakah kode sudah ada di database
+    $query = "SELECT * FROM users WHERE id_user = '$kode'";
+    $result = mysqli_query($koneksi, $query);
+    if (mysqli_num_rows($result) > 0) {
+        echo "Error: Kode '$kode' sudah ada di database.";
+        return 0;
+    }
+
+
+    $query = "INSERT INTO users VALUES ('$kode','$username','$password_hash','$user_role')";
     if (mysqli_query($koneksi, $query)) {
         return mysqli_affected_rows($koneksi);
     } else {
@@ -130,7 +145,23 @@ function ubah_user($data)
         echo "Error: " . mysqli_error($koneksi);
         return 0;
     }
-    
+
+}
+
+function ganti_password($data)
+{
+    global $koneksi;
+    $kode = htmlspecialchars($data["id_user"]);
+    $password = htmlspecialchars($data["password"]);
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "UPDATE users SET
+        password = '$password_hash'
+        WHERE id_user = '$kode'";
+
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
 }
 
 ?>
