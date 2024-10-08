@@ -51,7 +51,7 @@ function tambah_user($data)
     $kode = mysqli_real_escape_string($koneksi, $data["id_user"]);
     $username = mysqli_real_escape_string($koneksi, $data["username"]);
     $password = mysqli_real_escape_string($koneksi, $data["password"]);
-    $user_role = mysqli_real_escape_string($koneksi, $data["user_role"]);
+    $user_role = htmlspecialchars($koneksi, $data["user_role"]);
 
     if (!isset($data["username"]) || !isset($data["user_role"])) {
         echo '<div class="alert alert-danger" role="alert">Error: Tidak ada username dan user_role</div>';
@@ -126,26 +126,36 @@ function ubah_tamu($data)
     }
 
 }
+
 function ubah_user($data)
 {
     global $koneksi;
 
-    $kode = mysqli_real_escape_string($koneksi, $data["id_user"]);
-    $username = mysqli_real_escape_string($koneksi, $data["username"]);
-    $user_role = mysqli_real_escape_string($koneksi, $data["user_role"]);
-
-    $query = "UPDATE users SET 
-            username = '$username',
-            user_role = '$user_role'
-            WHERE id_user = '$kode'";
-
-    if (mysqli_query($koneksi, $query)) {
-        return mysqli_affected_rows($koneksi);
-    } else {
-        echo "Error: " . mysqli_error($koneksi);
+    // Check if necessary keys exist in the $data array
+    if (!isset($data["id_user"]) || !isset($data["username"]) || !isset($data["user_role"])) {
+        echo "Error: Missing data keys.";
         return 0;
     }
 
+    // Use prepared statements to avoid SQL injection and handle null values
+    $stmt = $koneksi->prepare("UPDATE users SET username = ?, user_role = ? WHERE id_user = ?");
+
+    if ($stmt === false) {
+        echo "Error: " . $koneksi->error;
+        return 0;
+    }
+
+    $stmt->bind_param("ssi", $data["username"], $data["user_role"], $data["id_user"]);
+
+    if ($stmt->execute()) {
+        $affectedRows = $stmt->affected_rows;
+        $stmt->close();
+        return $affectedRows;
+    } else {
+        echo "Error: " . $stmt->error;
+        $stmt->close();
+        return 0;
+    }
 }
 
 function ganti_password($data)

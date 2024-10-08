@@ -124,7 +124,8 @@ if ($_SESSION['role'] != 'admin') {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="gantiPasswordLabel">Ganti Password</h5>
+                            <h5 class="modal-title" id="gantiPasswordLabel">Ganti Password <?= $data["username"]; ?>
+                            </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

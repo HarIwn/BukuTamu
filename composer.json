@@ -6,5 +6,7 @@
             "email": "wendyharyadi2@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "phpoffice/phpspreadsheet": "^3.3"
+    }
 }
