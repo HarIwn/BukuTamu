@@ -1,3 +1,39 @@
+<?php
+require 'koneksi.php';
+// memulai session 
+session_start();
+
+// cek bila ada user yang sudah login maka akan redirect ke halaman dashboard
+if (isset($_SESSION['login'])) {
+    header('location: index.php');
+    exit;
+}
+
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $result = mysqli_query($koneksi, "SELECT * FROM users WHERE username = '$username'");
+
+    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+
+        if (password_verify($password, $row['password'])) {
+            // set session
+            $_SESSION['login'] = true;
+            $_SESSION['username'] = $username;
+            $_SESSION['role'] = $row['user_role'];
+            
+            header('location: index.php');
+            exit;
+        } else {
+            $error = true;
+        }
+    } else {
+        $error = true;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,8 +60,6 @@
 
 <body class="bg-gradient-primary">
     <?php
-    require 'koneksi.php';
-
     if (isset($_POST['login'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -39,7 +73,7 @@
 
             if (password_verify($password, $row['password'])) {
                 // login berhasil
-                header("Location: index.php");
+                header("Location: ./index.php");
                 exit;
             }
         }
@@ -74,15 +108,15 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form method="post" class="user">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="text" class="form-control form-control-user" id="username"
+                                                aria-describedby="emailHelp" name="username"
+                                                placeholder="Enter Username...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                id="exampleInputPassword" placeholder="Password" name="password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -91,23 +125,13 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block" name="login">
                                             Login
-                                        </a>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                        </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>

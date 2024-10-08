@@ -48,15 +48,15 @@ function tambah_user($data)
 {
     global $koneksi;
 
-    if (!isset($data["username"]) || !isset($data["user_role"])) {
-        echo '<div class="alert alert-danger" role="alert">Error: Tidak ada username dan user_role</div>';
-        return 0;
-    }
-
     $kode = mysqli_real_escape_string($koneksi, $data["id_user"]);
     $username = mysqli_real_escape_string($koneksi, $data["username"]);
     $password = mysqli_real_escape_string($koneksi, $data["password"]);
     $user_role = mysqli_real_escape_string($koneksi, $data["user_role"]);
+
+    if (!isset($data["username"]) || !isset($data["user_role"])) {
+        echo '<div class="alert alert-danger" role="alert">Error: Tidak ada username dan user_role</div>';
+        return 0;
+    }
 
     // Enkripsi password dengan password_hash
     $password_hash = password_hash($password, PASSWORD_DEFAULT);

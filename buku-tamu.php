@@ -1,13 +1,37 @@
 <?php
 include_once('templates/header.php');
+if ($_SESSION['role'] != 'admin') {
+    echo "<script>alert('anda tidak memiliki akses')</script>";
+    echo "<script>window.location.href='index.php'</script>";
+}
 ?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <?php
     require_once('function.php');
-    include_once('templates/header.php');
     ?>
+
+    <?php
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 'operator'):
+        ?>
+            <li class="nav-item">
+                <a href="buku-tamu.php" class="nav-link">
+                    <i class="fas fa-fw fa-book-open"></i>
+                    <span>Buku Tamu</span>
+                </a>
+            </li>
+        <?php endif; ?>
+    <?php
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'):
+        ?>
+            <li class="nav-item">
+                <a href="buku-tamu.php" class="nav-link">
+                    <i class="fas fa-fw fa-book-open"></i>
+                    <span>User</span>
+                </a>
+            </li>
+        <?php endif; ?>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Buku Tamu</h1>
 

@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<?php
+// memulai session 
+session_start();
 
+// cek bila tidak ada user yang login maka akan di redirect ke halaman login
+if (!isset($_SESSION['login'])) {
+    header('location: login.php');
+}
+?>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -120,8 +129,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Wendy Haryadi</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $username = $_SESSION['username']; ?></span>
+                                <img class="img-profile rounded-circle" src="src/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -139,10 +148,17 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+                                <?php
+                                // cek bila ada user login maka tampilkan logout
+                                if (isset($_SESSION['login'])):
+                                    ?>
+                                    <a class="dropdown-item" href="$" data-toggle="modal"
+                                        data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+
+                                <?php endif; ?>
                             </div>
                         </li>
 
